@@ -51,9 +51,9 @@ public Usuario getUser(int id) {
  */
 
 public List<Usuario> getUsers() {
-	List<Usuario> listaUsuarios = new ArrayList<>();
+	List<Usuario> listaUsuario = new ArrayList<>();
 	Query q = em.createQuery("SELECT u FROM Usuario u");
-	listaUsuarios = q.getResultList();
-	return listaUsuarios;
+	listaUsuario = q.getResultList();
+	return listaUsuario;
 }
 }

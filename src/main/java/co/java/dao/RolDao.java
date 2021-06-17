@@ -16,19 +16,19 @@ private EntityManager em;
 		em = ConexionJPA.getEntityManagerFactory().createEntityManager();
 	}
 	
-	public void createUser(Rol rol) {
+	public void createRol(Rol rol) {
     	em.getTransaction().begin();
 		em.persist(rol);
 		em.getTransaction().commit();
 	}
 
-public void updateUser(Rol rol) {
+public void updateRol(Rol rol) {
 	em.getTransaction().begin();
 	em.merge(rol);
 	em.getTransaction().commit();
 }
 
-public void deleteUser(int id) {
+public void deleteRol(int id) {
 
 	Rol user = new Rol();
 	user = em.find(Rol.class, id);
@@ -38,7 +38,7 @@ public void deleteUser(int id) {
 }
 
 
-public Rol getUser(int id) {
+public Rol getRol(int id) {
 
 	Rol user = new Rol();
 	user = em.find(Rol.class, id);
@@ -51,9 +51,9 @@ public Rol getUser(int id) {
  */
 
 public List<Rol> getUsers() {
-	List<Rol> listaUsuarios = new ArrayList<>();
+	List<Rol> listaRoles= new ArrayList<>();
 	Query q = em.createQuery("SELECT u FROM Rol u");
-	listaUsuarios = q.getResultList();
-	return listaUsuarios;
+	listaRoles = q.getResultList();
+	return listaRoles;
 }
 }

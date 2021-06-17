@@ -3,6 +3,8 @@
 	<persistence-unit name="Examen_1151628">
 	<class> co.java.entity.Usuario </class>
 	<class> co.java.entity.Rol </class>
+	<class> co.java.entity.TipoDB </class>
+	<class> co.java.entity.Token </class>
 	<properties>
 	<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 	<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/examenfinal"/>
