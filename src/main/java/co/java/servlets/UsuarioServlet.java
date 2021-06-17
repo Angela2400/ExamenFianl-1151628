@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import co.java.dao.UsuarioDao;
+import co.java.dao.ReporteDao;
 import co.java.dao.TokenDao;
+import co.java.entity.Reporte;
 import co.java.entity.Rol;
 import co.java.entity.TipoDB;
 import co.java.entity.Token;
@@ -27,11 +29,13 @@ public class UsuarioServlet extends HttpServlet {
 
 	private UsuarioDao userDao;
 	private TokenDao tokenDao;
+	private ReporteDao reporteDao;
 	private Usuario usuario = new Usuario();
 
 	public void init() {
 		userDao = new UsuarioDao();
 		tokenDao = new TokenDao();
+		reporteDao = new ReporteDao();
 	}
 
 	public UsuarioServlet() {
@@ -81,6 +85,24 @@ public class UsuarioServlet extends HttpServlet {
 				break;
 			case "/lisToken":
 				listToken(request, response);
+				break;
+			case "/newReporte":
+				showNewReporte(request, response);
+				break;
+			case "/insertReporte":
+				insertReporte(request, response);
+				break;
+			case "/deleteReporte":
+				deleteReporte(request, response);
+				break;
+			case "/editReporte":
+				showEditReporte(request, response);
+				break;
+			case "/updateReporte":
+				updateReporte(request, response);
+				break;
+			case "/lisReporte":
+				listReporte(request, response);
 				break;
 			default:
 				listUser(request, response);
@@ -229,5 +251,67 @@ public class UsuarioServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		tokenDao.deleteToken(id);
 		response.sendRedirect("listToken");
+	}
+	
+	private void listReporte(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<Reporte> listareporte = reporteDao.getReportes();
+		request.setAttribute("listareporte", listareporte);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("reporteList.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void showNewReporte(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("reporte.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void showEditReporte(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Reporte reporte = reporteDao.getReporte(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("reporte.jsp");
+		request.setAttribute("reporte", reporte);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void insertReporte(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		String documento = request.getParameter("file");
+		String fecha = request.getParameter("dataCreate");
+		String state = request.getParameter("state");
+		String descripcion = request.getParameter("description");
+		String name = request.getParameter("name");
+		String conexion = request.getParameter("conexion");
+		Token tokenR = new Token();
+		tokenR.setDb(conexion);
+		Reporte reporteNuevo = new Reporte(documento, tokenR,fecha, state, descripcion, name);
+		reporteDao.createReporte(reporteNuevo);
+		response.sendRedirect("listReporte");
+	}
+
+	private void updateReporte(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		String documento = request.getParameter("file");
+		String fecha = request.getParameter("dataCreate");
+		String state = request.getParameter("state");
+		String descripcion = request.getParameter("description");
+		String name = request.getParameter("name");
+		String conexion = request.getParameter("conexion");
+		Token tokenR = new Token();
+		tokenR.setDb(conexion);
+		Reporte reporteNuevo = new Reporte(id,documento, tokenR,fecha, state, descripcion, name);
+		reporteDao.updateReporte(reporteNuevo);
+		response.sendRedirect("listReporte");
+	}
+
+	private void deleteReporte(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		reporteDao.deleteReporte(id);
+		response.sendRedirect("listReporte");
 	}
 }

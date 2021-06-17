@@ -5,6 +5,7 @@
 	<class> co.java.entity.Rol </class>
 	<class> co.java.entity.TipoDB </class>
 	<class> co.java.entity.Token </class>
+	<class> co.java.entity.Reporte </class>
 	<properties>
 	<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 	<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/examenfinal"/>

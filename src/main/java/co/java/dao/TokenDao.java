@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import co.java.entity.Token;
-import co.java.entity.Usuario;
 import co.java.util.ConexionJPA;
 
 public class TokenDao {
